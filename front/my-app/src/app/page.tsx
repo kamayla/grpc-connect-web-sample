@@ -3,8 +3,7 @@ import styles from "./page.module.css";
 import { createClient } from "@connectrpc/connect";
 import { createConnectTransport } from "@connectrpc/connect-web";
 import { GreetService } from "@/api_proto/v1/greet_pb";
-// Import service definition that you want to connect to.
-import { ElizaService } from "@buf/connectrpc_eliza.bufbuild_es/connectrpc/eliza/v1/eliza_pb";
+import { FuckService } from "@/api_proto/v1/fuck_pb";
 // The transport defines what type of endpoint we're hitting.
 // In our example we'll be communicating with a Connect endpoint.
 // If your endpoint only supports gRPC-web, make sure to use
@@ -21,10 +20,17 @@ const Home = async () => {
     name: "J",
   });
   console.log(response);
+
+  const fuckClient = createClient(FuckService, transport);
+  const fuckResponse = await fuckClient.fuck({
+    name: "J",
+  });
+  console.log(fuckResponse);
   return (
     <div className={styles.page}>
       <main className={styles.main}>
         <p>{response.greeting}</p>
+        <p>{fuckResponse.fuck}</p>
         <Image
           className={styles.logo}
           src="/next.svg"

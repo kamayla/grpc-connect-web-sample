@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package api_proto.v1;
+
+option go_package = "./api/pb";
+
+import "buf/validate/validate.proto";
+
+message GreetRequest {
+  string name = 1 [(buf.validate.field).string = {
+    min_len: 1,
+    max_len: 2,
+  }];
+}
+
+message GreetResponse {
+  string greeting = 1;
+}
+
+service GreetService {
+  rpc Greet(GreetRequest) returns (GreetResponse) {}
+}

@@ -1,0 +1,26 @@
+version: v2
+plugins:
+  - local: protoc-gen-go
+    out: ../api
+    opt: paths=source_relative
+  - local: protoc-gen-connect-go
+    out: ../api
+    opt:
+      - paths=source_relative
+      - simple
+
+  # TypeScript 用（Connect v2）
+  - remote: buf.build/bufbuild/es:v2.2.2
+    out: ../front/my-app/src
+    opt:
+      - target=ts
+    include_imports: true
+    include_wkt: true
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: api
+  disable:
+    - file_option: go_package
+      module: buf.build/bufbuild/protovalidate
